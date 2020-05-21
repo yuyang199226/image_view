@@ -4,6 +4,7 @@ import (
     "log"
     "net/http"
     "github.com/gin-gonic/gin"
+    "imageview/config"
 )
 
 type Handler struct {
@@ -20,5 +21,6 @@ func (handler *Handler) DisplayTime(c *gin.Context) {
 
 func (handler *Handler) Ping(c *gin.Context) {
     log.Println("Ping")
-    c.JSON(http.StatusOK, gin.H{"message": "ping"})
+    cfg := config.Config()
+    c.JSON(http.StatusOK, gin.H{"message": cfg.Owner.Name})
 }
