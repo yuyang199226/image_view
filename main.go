@@ -31,6 +31,12 @@ func main(){
         fmt.Printf("create dir failed,err :%s", err)
     }
     cfg := config.Config()
+    if cfg.Debug {
+        fmt.Println("Debug mode not auth")
+    
+    } else {
+        fmt.Println("Open auth")
+    }
     fmt.Println(cfg.DB.Server)
     fmt.Println(cfg.Owner.Name)
     server.Start(*port)

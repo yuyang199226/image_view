@@ -13,6 +13,7 @@ type tomlConfig struct {
     DB database `toml:"database"`
     Servers map[string]server
     Clients clients
+    Debug bool
 }
 
 type ownerInfo struct {
