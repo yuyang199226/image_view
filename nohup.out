@@ -1,0 +1,15 @@
+hello
+hello
+hello
+hello
+hello
+hello
+hello
+hello
+hello
+hello
+hello
+Traceback (most recent call last):
+  File "test_nohup.py", line 4, in <module>
+    time.sleep(1)
+KeyboardInterrupt

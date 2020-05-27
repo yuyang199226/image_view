@@ -7,6 +7,7 @@ import (
 func Start(port int) {
     router := gin.Default()
     handler := &Handler{}
+    router.Use(Logger(), gin.Recovery())
     router.GET("/ping",handler.Ping)
     router.GET("/time", handler.DisplayTime)
     router.POST("/upload", handler.Upload)
