@@ -49,3 +49,8 @@ func (handler *Handler) Upload(c *gin.Context) {
     }
     c.String(http.StatusCreated, "upload successfule \n")
 }
+
+
+func Add(x , y int) int {
+    return x+y
+}

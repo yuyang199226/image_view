@@ -8,6 +8,7 @@ import (
     "os"
     "os/signal"
     "flag"
+    "github.com/sirupsen/logrus"
 )
 
 func main(){
@@ -17,6 +18,8 @@ func main(){
     
     )
     flag.Parse()
+    logger := logrus.New()
+    logger.SetFormatter(&logrus.TextFormatter{DisableColors: true, FullTimestamp: true})
     s := make(chan os.Signal, 1)
     signal.Notify(s, syscall.SIGUSR1)
     go func () {
@@ -37,6 +40,15 @@ func main(){
     } else {
         fmt.Println("Open auth")
     }
+	var img = make([]string, 0)
+	img = append(img, "ssss")
+	fmt.Println(img)
+
+    logger.Info("start ....")
+    logger.WithFields(logrus.Fields{
+    "animal": "walrus",
+  }).Info("A walrus appears")
+
     fmt.Println(cfg.DB.Server)
     fmt.Println(cfg.Owner.Name)
     server.Start(*port)
