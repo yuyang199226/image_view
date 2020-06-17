@@ -20,6 +20,7 @@ func main(){
     flag.Parse()
     logger := logrus.New()
     logger.SetFormatter(&logrus.TextFormatter{DisableColors: true, FullTimestamp: true})
+    //logger.SetFormatter(&logrus.JSONFormatter{})
     s := make(chan os.Signal, 1)
     signal.Notify(s, syscall.SIGUSR1)
     go func () {
@@ -43,7 +44,11 @@ func main(){
 	var img = make([]string, 0)
 	img = append(img, "ssss")
 	fmt.Println(img)
-
+    resp, err := Get("http://example.com/")
+    if err != nil {
+        logger.Error("get heep://example.com failed", err)
+    }
+    fmt.Println(resp)
     logger.Info("start ....")
     logger.WithFields(logrus.Fields{
     "animal": "walrus",

@@ -1,7 +1,7 @@
 package server
 
 import (
-    "log"
+    log "github.com/sirupsen/logrus"
     "net/http"
     "github.com/gin-gonic/gin"
     "imageview/config"
@@ -9,7 +9,10 @@ import (
     "io"
     "fmt"
 )
+func init () {
+log.SetFormatter(&log.JSONFormatter{})
 
+}
 type Handler struct {
 
 }

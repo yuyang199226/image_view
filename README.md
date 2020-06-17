@@ -6,4 +6,7 @@ go mod init "NAME"
 如果有依赖不需要了， 执行 go mod tidy 可以去掉不需要的依赖module
 
 go build  会生成可执行文件  go.sum 也会生成
+# test
 
+切到 有后缀是 _test.go 的目录 执行 
+`go test .`
