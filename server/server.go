@@ -1,16 +1,17 @@
 package server
+
 import (
-    "github.com/gin-gonic/gin"
-    "fmt"
+	"fmt"
+	"github.com/gin-gonic/gin"
 )
 
 func Start(port int) {
-    router := gin.Default()
-    handler := &Handler{}
-    router.Use(Logger(), gin.Recovery())
-    router.GET("/ping",handler.Ping)
-    router.GET("/time", handler.DisplayTime)
-    router.POST("/upload", handler.Upload)
-    addr := fmt.Sprintf(":%d", port)
-    router.Run(addr)
+	router := gin.Default()
+	handler := &Handler{}
+	router.Use(Logger(), gin.Recovery())
+	router.GET("/ping", handler.Ping)
+	router.GET("/time", handler.DisplayTime)
+	router.POST("/upload", handler.Upload)
+	addr := fmt.Sprintf(":%d", port)
+	router.Run(addr)
 }
