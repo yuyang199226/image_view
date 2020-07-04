@@ -2,6 +2,7 @@ package utils
 
 import (
 	"time"
+    "os"
 )
 
 func PathExists(path string) (bool, error) {

@@ -7,6 +7,7 @@ import (
 	"imageview/config"
 	"imageview/server"
 	"imageview/utils"
+	"imageview/database"
 	"os"
 	"os/signal"
 	"syscall"
@@ -29,7 +30,16 @@ func main() {
 			fmt.Println("Reloaded config")
 		}
 	}()
-	err := os.MkdirAll(*downloadDir, 0777)
+    db, err := database.NewMySQL()
+    if err != nil {
+        panic(err)
+    }
+    a, err := database.Query(db)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Printf("%+v\n", a)
+	err = os.MkdirAll(*downloadDir, 0777)
 	if err != nil {
 		fmt.Printf("create dir failed,err :%s", err)
 	}
@@ -43,11 +53,6 @@ func main() {
 	var img = make([]string, 0)
 	img = append(img, "ssss")
 	fmt.Println(img)
-	resp, err := Get("http://example.com/")
-	if err != nil {
-		log.Error("get heep://example.com failed", err)
-	}
-	fmt.Println(resp)
 	log.Info("start ....")
 	log.WithFields(log.Fields{
 		"animal": "walrus",

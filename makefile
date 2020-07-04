@@ -6,6 +6,8 @@
 # choco install make
 
 GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
-
+build:
+	mkdir bin
+	go build -o bin/image 
 fmt:
 	gofmt -w $(GOFMT_FILES)
