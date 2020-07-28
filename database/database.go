@@ -25,7 +25,7 @@ type Config struct {
 
 
 func NewMySQL() (*sql.DB, error) {
-    dsn := "root:1055979970YuYa@tcp(127.0.0.1:3306)/business_engine?charset=utf8&readTimeout=30s&writeTimeout=30s"
+    dsn := "root:1055979970YuYa@tcp(127.0.0.1:3306)/business_engine?charset=utf8&readTimeout=30s&writeTimeout=30s&autocommit=false"
 	d, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return nil, err

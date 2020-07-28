@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.pythonPath": "/Users/yuyang/venv/signals-env2/bin/python",
+		"python.linting.flake8Enabled": true,
+		"python.formatting.autopep8Path": "autopep8",
+		"editor.fontSize": 16,
+		"terminal.integrated.fontSize": 15,
+		"files.autoSave": "afterDelay",
+		"python.formatting.provider": "yapf",
+		"python.linting.enabled": false,
+		"python.linting.pylintPath": "pylint",
+	}
+}
