@@ -15,6 +15,6 @@ func Start(port int) {
 	router.POST("/upload", handler.Upload)
 	http.HandleFunc("/v1/ws", handler.TailLog)
 	// router.POST("/v1/ws", handler.TailLog)
-	addr := fmt.Sprintf(":%d", port)
+	addr := fmt.Sprintf("0.0.0.0:%d", port)
 	router.Run(addr)
 }
