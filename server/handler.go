@@ -2,21 +2,27 @@ package server
 
 import (
 	"fmt"
+	//"github.com/fsnotify/fsnotify"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
+	"github.com/hpcloud/tail"
 	log "github.com/sirupsen/logrus"
 	"imageview/config"
 	"io"
 	"net/http"
 	"os"
-	"github.com/gorilla/websocket"
-	"time"
+	//"time"
 )
 
 func init() {
 	log.SetFormatter(&log.JSONFormatter{})
 
 }
-
+type FileWatcher struct {
+	FileName string
+	Size int64
+	PrevSize int64
+}
 type Handler struct {
 }
 
@@ -51,17 +57,16 @@ func (handler *Handler) Upload(c *gin.Context) {
 	}
 	c.String(http.StatusCreated, "upload successfule \n")
 }
+
 var upgrader = websocket.Upgrader{}
+
 func (handler *Handler) TailLog(c *gin.Context) {
-	// w.Write([]byte("hello"))
-	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil )
+	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
 		log.Error("conn failed err: %v", err)
-		//c.String(http.StatusBadRequest, "Bad request")
 		return
 	}
-	go timeWriter(conn)
-
+	timeWriter(conn)
 	go func(conn *websocket.Conn) {
 		for {
 			msgType, msg, err := conn.ReadMessage()
@@ -77,12 +82,18 @@ func (handler *Handler) TailLog(c *gin.Context) {
 	}(conn)
 }
 
-
 func timeWriter(conn *websocket.Conn) {
-	for {
-		time.Sleep(time.Second * 2)
-		conn.WriteMessage(websocket.TextMessage, []byte(time.Now().Format("2006-01-02 15:04:05")))
-	}
+	//go func() {
+		t, err := tail.TailFile("/tmp/be.log", tail.Config{Follow: true})
+		if err != nil {
+			return
+		}
+		for line := range t.Lines {
+			conn.WriteMessage(websocket.TextMessage, []byte(line.Text+"\n"))
+			//fmt.Println(line.Text)
+		}
+
+	//}()
 }
 
 func Add(x, y int) int {
