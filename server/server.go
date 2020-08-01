@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func Start(port int) {
@@ -12,6 +13,8 @@ func Start(port int) {
 	router.GET("/ping", handler.Ping)
 	router.GET("/time", handler.DisplayTime)
 	router.POST("/upload", handler.Upload)
+	http.HandleFunc("/v1/ws", handler.TailLog)
+	// router.POST("/v1/ws", handler.TailLog)
 	addr := fmt.Sprintf(":%d", port)
 	router.Run(addr)
 }

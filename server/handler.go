@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"github.com/gorilla/websocket"
 )
 
 func init() {
@@ -48,6 +49,19 @@ func (handler *Handler) Upload(c *gin.Context) {
 		log.Fatal(err)
 	}
 	c.String(http.StatusCreated, "upload successfule \n")
+}
+var upgrader = websocket.Upgrader{}
+func (handler *Handler) TailLog(w http.ResponseWriter, r *http.Request) {
+	conn, _ := upgrader.Upgrade(w, r, nil )
+	go func(conn *websocket.Conn) {
+		for {
+			msgType, msg, _ := conn.ReadMessage()
+			err := conn.WriteMessage(msgType, msg)
+			if err != nil {
+				break
+			}
+		}
+	}(conn)
 }
 
 func Add(x, y int) int {

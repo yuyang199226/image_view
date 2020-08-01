@@ -7,5 +7,6 @@ require (
 	github.com/Shopify/sarama v1.26.4
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/gorilla/websocket v1.4.2
 	github.com/sirupsen/logrus v1.6.0
 )
