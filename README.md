@@ -36,3 +36,14 @@ https://learnku.com/go/wikis/38430
   有key ,value, timestamp ， offsetDetla,组成
   
   
+  curl --include \
+       --no-buffer \
+       --header "Connection: Upgrade" \
+       --header "Upgrade: websocket" \
+       --header "Host: 127.0.0.1:8088" \
+       --header "Origin: http://127.0.0.1:8088" \
+       --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
+       --header "Sec-WebSocket-Version: 13" \
+       http://127.0.0.1:8088/v1/ws
+  
+  

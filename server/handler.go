@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"github.com/gorilla/websocket"
+	"time"
 )
 
 func init() {
@@ -51,17 +52,37 @@ func (handler *Handler) Upload(c *gin.Context) {
 	c.String(http.StatusCreated, "upload successfule \n")
 }
 var upgrader = websocket.Upgrader{}
-func (handler *Handler) TailLog(w http.ResponseWriter, r *http.Request) {
-	conn, _ := upgrader.Upgrade(w, r, nil )
+func (handler *Handler) TailLog(c *gin.Context) {
+	// w.Write([]byte("hello"))
+	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil )
+	if err != nil {
+		log.Error("conn failed err: %v", err)
+		//c.String(http.StatusBadRequest, "Bad request")
+		return
+	}
+	go timeWriter(conn)
+
 	go func(conn *websocket.Conn) {
 		for {
-			msgType, msg, _ := conn.ReadMessage()
-			err := conn.WriteMessage(msgType, msg)
+			msgType, msg, err := conn.ReadMessage()
 			if err != nil {
-				break
+				log.Error("logtail err: %v", err)
+				return
+			}
+			err = conn.WriteMessage(msgType, msg)
+			if err != nil {
+				return
 			}
 		}
 	}(conn)
+}
+
+
+func timeWriter(conn *websocket.Conn) {
+	for {
+		time.Sleep(time.Second * 2)
+		conn.WriteMessage(websocket.TextMessage, []byte(time.Now().Format("2006-01-02 15:04:05")))
+	}
 }
 
 func Add(x, y int) int {
